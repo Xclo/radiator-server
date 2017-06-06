@@ -1,0 +1,9 @@
+---
+applications:
+- name: cf-nodejs-server
+  memory: 1G
+  disk_quota: 1G
+  instances: 1
+  command: node ./index.js
+  host: cf-nodejs-server
+  path: .  
