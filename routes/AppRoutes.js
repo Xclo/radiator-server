@@ -185,8 +185,8 @@ module.exports = function (express) {
             }).then(function (result) {
                 var url = result + "/health";
                 var status ;
-                status = rp(url).then(function (result){
-                  res.json({app: summary, address: url, status: result})
+                status = rp(url,"application/json").then(function (result){
+                  res.json({address: url, status: result})
                   console.log("The fetch result " + JSON.stringify(result));
                   //return result;
                 }).catch (function (reason) {
