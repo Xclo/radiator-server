@@ -6,7 +6,7 @@ Changes:
 
 1. Remove the Angular JS UI
 2. Change the Routes/API's to accept a JWT token
-3. Change the dependency on the backend CF client to https://github.com/rjain15/cf-nodejs-client
+3. Change the dependency on the backend CF client to https://github.com/rjain15/cf-client
 
 ## Getting Started.
 

@@ -1,5 +1,5 @@
 {
-  "name": "cf-nodejs-server",
+  "name": "radiator-server",
   "version": "1.0.0",
   "description": "A Cloud Foundry server to access CF API's",
   "main": "index.js",
@@ -19,16 +19,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rjain15/cf-nodejs-server.git"
+    "url": "git+https://github.com/rjain15/radiator-server.git"
   },
-  "author": "Rajesh Jain @rjain15 and Brian Byers ",
+  "author": "Rajesh Jain @rjain15 and Brian Byers @bbyers ",
   "license": "Apache-2.0",
   "dependencies": {
     "async": "^2.3.0",
     "axios": "^0.16.1",
     "body-parser": "^1.17.1",
     "bootstrap": "^3.3.7",
-    "cf-client": "^0.13.26",
+    "cf-client": "github:rjain15/cf-client",
     "chai": "^4.0.2",
     "dropzone": "^5.0.0",
     "express": "^4.15.2",
