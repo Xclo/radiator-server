@@ -2,7 +2,7 @@
 
 This is a server side application has been developed to interact with some components of the <a href="https://docs.cloudfoundry.org/concepts/architecture/" target="_blank">Cloud foundry Architecture</a>: <a href="https://docs.cloudfoundry.org/concepts/architecture/cloud-controller.html" target="_blank">Cloud Controller</a>, <a href="https://docs.cloudfoundry.org/concepts/architecture/uaa.html" target="_blank">UAA</a> & <a href="https://docs.pivotal.io/pivotalcf/devguide/deploy-apps/streaming-logs.html" target="_blank">Metrics</a> services installed in a <a href="https://www.cloudfoundry.org/" target="_blank">Cloud Foundry</a> Instance. Cloud Foundry offers a <a href="https://github.com/cloudfoundry/cli" target="_blank">CLI</a> to manage a app life cycle in combination with the Web apps provided by the commercial Cloud Foundry platforms as <a href="https://run.pivotal.io/" target="_blank">PWS</a> or <a href="https://console.ng.bluemix.net/" target="_blank">Bluemix</a>. This Web App allows the user create the app, uploads the code and execute the typical actions (Start, Stop, Restage, Remove, Scale)
 This is based on the project from https://github.com/prosociallearnEU/cf-nodejs-dashboard, but with the following changes
-Changes: 
+Changes:
 
 1. Remove the Angular JS UI
 2. Change the Routes/API's to accept a JWT token
@@ -15,7 +15,16 @@ The application is able to run in localhost or hosted. To test in local, the ste
 ``` bash
 git clone https://github.com/rjain15/cf-nodejs-server.git
 npm install
-nodemon 
+
+```
+In case the node_modules/cf-client doesn't exist, do the following
+
+``` bash
+npm install rjain15/cf-client --save
+
+To start:
+
+nodemon
 -- or --
 npm start
 
@@ -48,7 +57,7 @@ http://localhost:5000/
 **App**
 
 * *Open:* This method checks if the application is running and open in a new tab the application.
-* *View:* This method shows details about the app's configuration. 
+* *View:* This method shows details about the app's configuration.
 * *Upload:* This method is used to upload source code to the app.
 * *Start/Stop:* This method is used to Start/Stop an app.
 * *Restage:* This method is used to Restage the Droplet.
