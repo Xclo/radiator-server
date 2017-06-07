@@ -149,15 +149,6 @@ module.exports = function (express) {
   	});
 
 
-
-
-
-
-
-
-
-
-
     // GET /apps/:guid
     router.get('/:guid', validateApiToken, function (req, res) {
         const api = req.api;
@@ -186,7 +177,7 @@ module.exports = function (express) {
                 var url = result + "/health";
                 var status ;
                 status = rp(url,"application/json").then(function (result){
-                  res.json({address: url, status: result})
+                  res.json({app: summary, address: url, status: result})
                   console.log("The fetch result " + JSON.stringify(result));
                   //return result;
                 }).catch (function (reason) {
