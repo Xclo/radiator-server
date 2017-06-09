@@ -100,28 +100,65 @@ module.exports = function (express) {
     }
 
     function getApps(api, token,filter) {
-      return new Promise((resolve, reject) => {
-        AppServices.getApps(api, token,filter).then((response) => {
-          let apps = response.resources.map((app) => {
-            return {
-              api: api,
-              metadata: app.metadata,
-              name: app.entity.name,
-              buildpack: app.entity.buildpack,
-              instances: app.entity.instances,
-              memory: app.entity.memory,
-              disk_quota: app.entity.disk_quota,
-              state: app.entity.state,
-              health_check_type: app.entity.health_check_type,
-              health_check_http_endpoint: app.entity.health_check_http_endpoint
-            }
-          });
-          resolve(apps);
-        }).catch((error) => {
-          reject(error);
+    return new Promise((resolve, reject) => {
+      AppServices.getApps(api, token,filter).then((response) => {
+
+        // console.log(response)
+
+
+        let apps = response.resources.map((app) => {
+          return mapAppResponse(api, app)
         });
+
+        let appPromises = []
+        // console.log('response', response)
+        for (var page = 2; page <= response.total_pages; page++) {
+          // let filter = `&&order-direction=asc&results-per-page=100`
+          let filter = {
+            "page": page,
+            "order-direction": "asc",
+            "results-per-page": 100
+          }
+          // console.log('page', filter)
+          appPromises.push(AppServices.getApps(api, token,filter))
+        }
+
+        Promise.all(appPromises).then((responses) => {
+          // console.log('responses', responses)
+          responses.forEach((response) => {
+            // console.log(response);
+            let moreApps = response.resources.map((app) => {
+              return mapAppResponse(api, app)
+            });
+            // console.log('more apps', moreApps)
+            apps = apps.concat(moreApps);
+          })
+
+          // console.log('# of apps', apps.length);
+          // resolve(_.flattenDeep(apps))
+          resolve(apps);
+        });
+
+      }).catch((error) => {
+        reject(error);
       });
+    });
+  }
+
+  const mapAppResponse = (api, app) => {
+    return {
+      api: api,
+      metadata: app.metadata,
+      name: app.entity.name,
+      buildpack: app.entity.buildpack,
+      instances: app.entity.instances,
+      memory: app.entity.memory,
+      disk_quota: app.entity.disk_quota,
+      state: app.entity.state,
+      health_check_type: app.entity.health_check_type,
+      health_check_http_endpoint: app.entity.health_check_http_endpoint
     }
+  }
 
 
 
@@ -132,14 +169,20 @@ module.exports = function (express) {
       const authorization = req.authorization;
       //const filter = req.q;
       //const filter = "q=name:canary-java";
-      const filter =
-        { "q":"name:canary-java"
-        }
+      // const filter =
+      //   { "q":"name:canary-java"
+      //   }
+
+      let filter = {
+        "order-direction": "asc",
+        "results-per-page": 100
+      }
+
 
       AppServices.setEndpoint(api);
       AppServices.setToken(authorization);
 
-      getApps(api, authorization,filter).then((apps) => {
+      getApps(api, authorization, filter).then((apps) => {
         return getAppSummaries(api, authorization, apps);
       }).then((apps) => {
         res.json(apps);
